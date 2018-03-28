@@ -4,7 +4,7 @@ package thread.runimp;
  * Created by youxingyang on 2016/6/23.
  */
 public class Machine implements Runnable {
-    int a = 0;
+    public int a = 0;
     public void run() {
         for (a = 0; a < 23; a++) {
             System.out.println(Thread.currentThread().getName() + ":" + a);
