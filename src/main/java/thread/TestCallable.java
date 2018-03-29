@@ -1,12 +1,12 @@
-package thread;
+package main.java.thread;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
 
 /**
- * Created by yangyouxing
- * date on 2017/6/1.
+ * @Author: youxingyang
+ * @date: 2016/6/24 13:21
  */
 public class TestCallable {
 
@@ -42,10 +42,8 @@ public class TestCallable {
             for (String s : values) {
                 System.out.println(s);
             }
-        } catch (InterruptedException e) {
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
-        } catch (ExecutionException e1) {
-            e1.printStackTrace();
         }
 
     }

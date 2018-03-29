@@ -1,14 +1,15 @@
-package thread.withex;
+package main.java.thread.withex;
 
 /**
- * Created by youxingyang on 2016/6/24.
+ * @Author: youxingyang
+ * @date: 2016/6/24 13:21
  */
 public class Machine extends Thread {
     @Override
     public void run() {
         for (int a = 0; a < 30; a++) {
             System.out.println(currentThread().getName() + ":" + a);
-            if (a == 1 && currentThread().getName().equals("m1")) {
+            if (a == 1 && "m1".equals(currentThread().getName())) {
                 throw new RuntimeException("wrong from Machine");
             }
             try {
@@ -18,7 +19,7 @@ public class Machine extends Thread {
             }
         }
     }
-    public static void main(String args[]) throws Exception {
+    public static void main(String[] args) throws Exception {
         Machine machine = new Machine();
         machine.setName("m1");
 

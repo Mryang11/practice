@@ -1,7 +1,8 @@
-package thread.join;
+package main.java.thread.join;
 
 /**
- * Created by youxingyang on 2016/6/24.
+ * @Author: youxingyang
+ * @date: 2016/6/23 13:18
  */
 public class Machine extends Thread {
     @Override
@@ -11,7 +12,7 @@ public class Machine extends Thread {
         }
     }
 
-    public static void main(String aegs[]) throws Exception {
+    public static void main(String[] args) throws Exception {
         Machine machine = new Machine();
         machine.setName("m1");
 

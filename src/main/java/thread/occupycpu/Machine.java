@@ -1,7 +1,8 @@
-package thread.occupycpu;
+package main.java.thread.occupycpu;
 
 /**
- * Created by youxingyang on 2016/6/24.
+ * @Author: youxingyang
+ * @date: 2016/6/24 13:19
  */
 public class Machine extends Thread {
     private static StringBuffer log = new StringBuffer();
@@ -9,13 +10,13 @@ public class Machine extends Thread {
     @Override
     public void run() {
         for (int i = 0; i < 20; i++) {
-            log.append(currentThread().getName() + ":" + i + " ");
+            log.append(currentThread().getName()).append(":").append(i).append(" ");
             if (++count % 10 == 0) {
                 log.append("\n");
             }
         }
     }
-    public static void main(String aegs[]) throws Exception {
+    public static void main(String[] args) throws Exception {
         Machine machine1 = new Machine();
         Machine machine2 = new Machine();
         machine1.setName("m1");

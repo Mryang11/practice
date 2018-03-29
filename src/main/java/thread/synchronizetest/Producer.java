@@ -1,7 +1,8 @@
-package thread.synchronizetest;
+package main.java.thread.synchronizetest;
 
 /**
- * Created by youxingyang on 2016/6/24.
+ * @Author: youxingyang
+ * @date: 2016/6/24 13:20
  */
 public class Producer extends Thread {
     private Stack theStack;

@@ -1,10 +1,11 @@
-package thread.usetimer;
+package main.java.thread.usetimer;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * Created by youxingyang on 2016/6/24.
+ * @Author: youxingyang
+ * @date: 2016/6/24 13:21
  */
 public class Machine extends Thread {
     private int a;
@@ -46,7 +47,7 @@ public class Machine extends Thread {
         }
     }
 
-    public static void main(String args[])throws Exception {
+    public static void main(String[] args)throws Exception {
         Machine machine = new Machine();
         machine.start();
     }

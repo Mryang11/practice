@@ -1,4 +1,4 @@
-package zip;
+package main.java.zip;
 
 import org.apache.tools.zip.ZipEntry;
 import org.apache.tools.zip.ZipOutputStream;
@@ -9,9 +9,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 /**
- * Created on 2017/6/7
- * Author: youxingyang.
- * @author domainclient
+ * @Author: youxingyang
+ * @date: 2016/6/24 13:21
  */
 public class ZipTest {
     private static int DEFAULT_BUFFER_SIZE = 16 * 1024;
@@ -55,7 +54,7 @@ public class ZipTest {
                 }
             } else {
                 zOut.putNextEntry(new ZipEntry(name));
-                writeFile(zOut,file);
+                writeFile(zOut, file);
             }
             zOut.setEncoding("GBK");
         } catch (Exception e) {
@@ -65,11 +64,11 @@ public class ZipTest {
 
     /**
      * 写文件到out
-     * @param zOut
-     * @param file
+     * @param zOut          输出流
+     * @param file          目标文件
      * @throws IOException
      */
-    public static void writeFile(ZipOutputStream zOut,File file) throws IOException {
+    public static void writeFile(ZipOutputStream zOut, File file) throws IOException {
         byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
         FileInputStream in = new FileInputStream(file);
         int len;
