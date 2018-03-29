@@ -1,7 +1,8 @@
-package thread.sleepyield;
+package main.java.thread.sleepyield;
 
 /**
- * Created by youxingyang on 2016/6/24.
+ * @Author: youxingyang
+ * @date: 2016/6/24 13:18
  */
 
 /**
@@ -17,7 +18,7 @@ public class Machine extends Thread {
     @Override
     public void run() {
         for (int i = 0; i < 20; i++) {
-            log.append(currentThread().getName() + ":" + i + " ");
+            log.append(currentThread().getName()).append(":").append(i).append(" ");
             if (++count % 10 == 0) {
                 log.append("\n");
             }
@@ -33,7 +34,7 @@ public class Machine extends Thread {
         }
     }
 
-    public static void main(String args[]) throws Exception {
+    public static void main(String[] args) throws Exception {
         Machine machine1 = new Machine();
         Machine machine2 = new Machine();
         machine1.setName("m1");

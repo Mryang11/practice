@@ -1,14 +1,17 @@
-package thread.synchronizetest;
+package main.java.thread.synchronizetest;
+
 
 /**
- * Created by youxingyang on 2016/6/24.
+ * @Author: youxingyang
+ * @date: 2016/6/24 13:20
  */
 public class Consumer extends Thread {
     private Stack theStack;
     public Consumer(Stack s, String name) {
         super(name);
         theStack = s;
-        start();    //启动自身消费线程
+        //启动自身消费线程
+        start();
 
     }
     @Override

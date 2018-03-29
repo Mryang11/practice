@@ -1,7 +1,8 @@
-package thread.allrun;
+package main.java.thread.allrun;
 
 /**
- * Created by youxingyang on 2016/6/23.
+ * @Author: youxingyang
+ * @date: 2016/6/23 13:18
  */
 public class Machine extends Thread {
 
@@ -17,7 +18,7 @@ public class Machine extends Thread {
         }
     }
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         Machine m1 = new Machine();
         Machine m2 = new Machine();
         m1.start();

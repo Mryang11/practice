@@ -1,7 +1,8 @@
-package thread.waitio;
+package main.java.thread.waitio;
 
 /**
- * Created by youxingyang on 2016/6/24.
+ * @Author: youxingyang
+ * @date: 2016/6/24 13:21
  */
 
 /**
@@ -21,7 +22,7 @@ public class Machine extends Thread {
         }
     }
 
-    public static void main(String args[]) throws Exception {
+    public static void main(String[] args) throws Exception {
         Machine m1 = new Machine();
         m1.start();
         System.out.println("please input your number:");
