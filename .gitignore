@@ -17,9 +17,18 @@
 *.zip
 *.tar.gz
 *.rar
+*.iml
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 /.idea/workspace.xml
 /.idea/checkstyle-idea.xml
 /.idea/uiDesigner.xml
+/.idea/compiler.xml
+/.idea/.name
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/vcs.xml
+/.idea/dictionaries/
+/.idea/inspectionProfiles/
+/.idea/encodings.xml
