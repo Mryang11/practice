@@ -106,49 +106,49 @@ public final class FileUtil {
      * @return
      */
     public static boolean createDir(String filePath) {
+        boolean res = false;
         File file = new File(filePath);
         // 判断目录是否存在
         if (file.isDirectory()) {
             System.out.println("目标目录已存在" + filePath);
-            return true;
+            res = true;
         }
         // 判断文件是否为目录
         if (filePath.endsWith(File.separator)) {
             System.out.println("目标文件不能为目录！");
-            return true;
+            res = true;
         }
         // 判断目标文件所在的目录是否存在
         if (!file.getParentFile().exists()) {
             // 如果目标文件所在的文件夹不存在，则创建父文件夹
             System.out.println("目标文件所在目录不存在，准备创建它！");
             // 判断创建目录是否成功
-            if (!file.getParentFile().mkdirs()) {
+            if (file.getParentFile().mkdirs()) {
                 System.out.println("创建目标文件所在的目录失败！");
-                return false;
             } else {
-                return true;
+                res = true;
             }
         } else {
-            return true;
+            res = true;
         }
+        return res;
     }
 
     /**
      * 创建一个文件
-     * @param filePath
+     * @param filePath  文件路径
      * @return
      */
     public static boolean createFile(String filePath) {
+        boolean res = false;
         File file = new File(filePath);
         // 判断文件是否存在
         if (file.exists()) {
             System.out.println("目标文件已存在" + filePath);
-            return false;
         }
         // 判断文件是否为目录
         if (filePath.endsWith(File.separator)) {
             System.out.println("目标文件不能为目录！");
-            return false;
         }
         // 判断目标文件所在的目录是否存在
         if (!file.getParentFile().exists()) {
@@ -157,29 +157,27 @@ public final class FileUtil {
             // 判断创建目录是否成功
             if (!file.getParentFile().mkdirs()) {
                 System.out.println("创建目标文件所在的目录失败！");
-                return false;
             }
         }
         try {
             // 创建目标文件
             if (file.createNewFile()) {
                 System.out.println("创建文件成功:" + filePath);
-                return true;
+                res = true;
             } else {
                 System.out.println("创建文件失败！");
-                return false;
             }
             // 捕获异常
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("创建文件失败！" + e.getMessage());
-            return false;
         }
+        return res;
     }
 
     /**
      * 判断该文件夹下至少有一个文件夹
-     * @param files
+     * @param files     多个文件
      * @return
      */
     public static boolean containDir(File[] files) {
