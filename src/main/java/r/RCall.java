@@ -8,6 +8,9 @@ import java.io.InputStreamReader;
  * @date: 2018/3/30 17:55
  */
 public class RCall {
+    /**
+     * only in windows
+     */
     public static void main(String[] args) {
         // 返回与当前 Java 应用程序相关的运行时对象
         Runtime run = Runtime.getRuntime();
