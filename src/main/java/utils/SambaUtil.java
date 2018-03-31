@@ -131,8 +131,12 @@ public final class SambaUtil {
 
         } finally {
             try  {
-                out.close();
-                in.close();
+                if (out != null) {
+                    out.close();
+                }
+                if (in != null) {
+                    in.close();
+                }
             } catch  (IOException e) {
                 e.printStackTrace();
             }
@@ -199,7 +203,8 @@ public final class SambaUtil {
 
     /**
      * 上传本地文件到Samba服务器指定目录
-     * @param remoteSmbFile  Samba服务器远程文件
+     * @param url           URL
+     * @param auth          auth
      * @param localFilePath 本地文件路径
      * @throws MalformedURLException
      * @throws SmbException
@@ -243,8 +248,12 @@ public final class SambaUtil {
 
         } finally  {
             try  {
-                out.close();
-                in.close();
+                if (out != null) {
+                    out.close();
+                }
+                if (in != null) {
+                    in.close();
+                }
             } catch  (IOException e) {
                 e.printStackTrace();
             }
@@ -264,7 +273,8 @@ public final class SambaUtil {
 
         UniAddress ua = UniAddress.getByName(host);
         NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication(host, username, password);
-        SmbSession.logon(ua, auth);//验证是否能够成功登录
+        //验证是否能够成功登录
+        SmbSession.logon(ua, auth);
         //创建Smb文件,地址一定要使用smb://
         SmbFile remoteSmbFile = new SmbFile("smb://" + host + filePath, auth);
         SambaUtil.downloadFileFromSamba(remoteSmbFile, demo1LocalDir);
