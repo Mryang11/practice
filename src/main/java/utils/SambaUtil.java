@@ -253,9 +253,9 @@ public final class SambaUtil {
 
     public static void main(String[] args) throws UnknownHostException, SmbException, MalformedURLException {
         String host = "192.168.60.40";
-        String username = "publicftptumor@ard.inc";
-        String password = "Ann0road";
-        String filePath = "/Annoroad/项目管理部/临床项目检测报告/2015年肿瘤个体化用药指导报告/2015-08-14/TB15AX00007鼻咽癌化疗用药基因检测报告-20150817.pdf";
+        String username = "publicxxxx@xxx.inc";
+        String password = "123456a";
+        String filePath = "E:\\abc\\test.pdf";
         //Demo1: 演示从Samba服务器上下载指定的文件到本地
         System.out.println("Demo1: Downloading File from Samba Server to Local");
         //"samba:samba_password@192.168.71.43/samba/demo1/testFile1.jpg";
@@ -272,9 +272,9 @@ public final class SambaUtil {
 
         //Demo2: 演示上传文件到Samba服务器指定目录
         System.out.println("Demo2:Uploading File from Local to Samba Server");
-        String demo2LocalFile= "E:\\test\\samba\\TB15AX00007鼻咽癌化疗用药基因检测报告-20150817.pdf";
+        String demo2LocalFile= "E:\\test\\samba\\test.pdf";
 
-        String sambaDir = "/Annoroad/项目管理部/临床项目检测报告/2015年肿瘤个体化用药指导报告/测试不要删";
+        String sambaDir = "E:\\abc";
         String demo2RemoteSambaDirURL="smb://" + username + ":" + password + "@" + host + sambaDir;
 
         String filePathUpload = sambaDir + "/" + new File(demo2LocalFile).getName();
