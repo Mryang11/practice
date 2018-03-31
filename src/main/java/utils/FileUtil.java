@@ -10,6 +10,7 @@ import java.security.MessageDigest;
  * @date: 2018/3/30 14:46
  */
 public final class FileUtil {
+    private FileUtil() {}
     private static final int BUFFER_SIZE = 16 * 1024;
 
     private static final int MD5_RABIX = 16;
