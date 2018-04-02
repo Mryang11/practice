@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
  * @Author: youxingyang
  * @date: 2018/3/30 14:50
  */
-public class GenCodeUtil {
+public final class GenCodeUtil {
     private GenCodeUtil() {}
     private static Pattern blank = Pattern.compile("^[//s&&[^//n]]*$");
     public static void main(String[] args) {
