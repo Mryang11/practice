@@ -8,26 +8,24 @@ import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 
 /**
- * @Author 	youxingyang
- * @date	2017-7-31 下午5:05:24
+ * @Author  youxingyang
+ * @date    2017-7-31 下午5:05:24
  */
 public final class SambaUtil {
 
-    private SambaUtil() {}
+    private SambaUtil() { }
 
     /**
      * 从服务器上下载指定的文件到本地目录
-     * @param remoteFileURL   Samba服务器远程文件的路径
+     * @param remoteFileUrl   Samba服务器远程文件的路径
      * @param localDir        本地目录的路径
      */
-
-    public static void downloadFileFromSamba(String remoteFileURL, String localDir){
-
-        if ((remoteFileURL == null) || ("".equals(remoteFileURL.trim()))) {
+    public static void downloadFileFromSamba(String remoteFileUrl, String localDir) {
+        if ((remoteFileUrl == null) || ("".equals(remoteFileUrl.trim()))) {
             System.out.println("Samba服务器远程文件路径不可以为空");
             return;
         }
-        if((localDir == null) || ("".equals(localDir.trim()))) {
+        if ((localDir == null) || ("".equals(localDir.trim()))) {
             System.out.println("本地目录路径不可以为空");
             return;
         }
@@ -35,9 +33,9 @@ public final class SambaUtil {
         InputStream in = null;
         OutputStream out = null;
 
-        try{
+        try {
             //创建一个File对象对应远程服务器上的File
-            SmbFile remoteSmbFile = new SmbFile(remoteFileURL);
+            SmbFile remoteSmbFile = new SmbFile(remoteFileUrl);
 
             //获取远程文件的文件名,这个的目的是为了在本地的目录下创建一个同名文件
             String remoteSmbFileName = remoteSmbFile.getName();
@@ -57,7 +55,7 @@ public final class SambaUtil {
 
             //缓冲内存
             byte[] buffer = new byte[1024];
-            while (in.read(buffer) != -1){
+            while (in.read(buffer) != -1) {
                 out.write(buffer);
                 buffer = new byte[1024];
             }
@@ -86,7 +84,7 @@ public final class SambaUtil {
      * @throws SmbException
      */
 
-    public static void downloadFileFromSamba(SmbFile remoteSmbFile, String localDir) throws SmbException{
+    public static void downloadFileFromSamba(SmbFile remoteSmbFile, String localDir) throws SmbException {
 
         //入参检查
         if (!remoteSmbFile.exists()) {
@@ -94,7 +92,7 @@ public final class SambaUtil {
             return;
         }
         //入参检查
-        if((localDir == null) || ("".equals(localDir.trim()))) {
+        if ((localDir == null) || ("".equals(localDir.trim()))) {
             System.out.println("本地目录路径不可以为空");
             return;
         }
@@ -102,7 +100,7 @@ public final class SambaUtil {
         InputStream in = null;
         OutputStream out = null;
 
-        try{
+        try {
             //获取远程文件的文件名,这个的目的是为了在本地的目录下创建一个同名文件
             String remoteSmbFileName = remoteSmbFile.getName();
 
@@ -121,7 +119,7 @@ public final class SambaUtil {
 
             //缓冲内存
             byte[] buffer = new byte[1024];
-            while (in.read(buffer) != -1){
+            while (in.read(buffer) != -1) {
                 out.write(buffer);
                 buffer = new byte[1024];
             }
@@ -145,13 +143,13 @@ public final class SambaUtil {
 
     /**
      * 上传本地文件到Samba服务器指定目录
-     * @param remoteDirURL  Samba服务器远程目录的路径
+     * @param remoteDirUrl  Samba服务器远程目录的路径
      * @param localFilePath 本地文件路径
      */
-    public static void uploadFileToSamba(String remoteDirURL, String localFilePath){
+    public static void uploadFileToSamba(String remoteDirUrl, String localFilePath) {
 
         //入参检查
-        if ((remoteDirURL == null) || ("".equals(remoteDirURL.trim()))) {
+        if ((remoteDirUrl == null) || ("".equals(remoteDirUrl.trim()))) {
             System.out.println("Samba服务器远程目录路径不可以为空");
             return;
         }
@@ -165,7 +163,7 @@ public final class SambaUtil {
         InputStream in = null;
         OutputStream out = null;
 
-        try{
+        try {
             //创建一个本地文件对象
             File localFile = new File(localFilePath);
 
@@ -173,17 +171,17 @@ public final class SambaUtil {
             String localFileName = localFile.getName();
 
             //创建远程服务器上Samba文件对象
-            SmbFile remoteSmbFile = new SmbFile(remoteDirURL + File.separator + localFileName);
+            SmbFile remoteSmbFile = new SmbFile(remoteDirUrl + File.separator + localFileName);
 
             //打开一个文件输入流执行本地文件，要从它读取内容
-            in = new  BufferedInputStream( new  FileInputStream(localFile));
+            in = new  BufferedInputStream(new FileInputStream(localFile));
 
             //打开一个远程Samba文件输出流，作为复制到的目的地
-            out = new  BufferedOutputStream( new  SmbFileOutputStream(remoteSmbFile));
+            out = new  BufferedOutputStream(new SmbFileOutputStream(remoteSmbFile));
 
             //缓冲内存
-            byte [] buffer =  new   byte [1024];
-            while  (in.read(buffer) != - 1 ) {
+            byte[] buffer =  new byte[1024];
+            while (in.read(buffer) != -1) {
                 out.write(buffer);
                 buffer = new byte[1024];
             }
@@ -209,7 +207,7 @@ public final class SambaUtil {
      * @throws MalformedURLException
      * @throws SmbException
      */
-    public static void uploadFileToSamba(String url, NtlmPasswordAuthentication auth, String localFilePath) throws MalformedURLException, SmbException{
+    public static void uploadFileToSamba(String url, NtlmPasswordAuthentication auth, String localFilePath) throws MalformedURLException, SmbException {
         //入参检查
         if ((localFilePath == null) || ("".equals(localFilePath.trim()))) {
             System.out.println("本地文件路径不可以为空");
@@ -227,7 +225,7 @@ public final class SambaUtil {
         InputStream in = null;
         OutputStream out = null;
 
-        try{
+        try {
             File localFile = new File(localFilePath);
 
             //打开一个文件输入流执行本地文件，要从它读取内容
@@ -237,8 +235,8 @@ public final class SambaUtil {
             out = new BufferedOutputStream(new SmbFileOutputStream(remoteSmbFile));
 
             //缓冲内存
-            byte [] buffer =  new   byte [1024];
-            while  (in.read(buffer) != - 1 ) {
+            byte[] buffer = new byte[1024];
+            while (in.read(buffer) != -1) {
                 out.write(buffer);
                 buffer = new byte[1024];
             }
@@ -260,6 +258,12 @@ public final class SambaUtil {
         }
     }
 
+    /**
+     * @param args
+     * @throws UnknownHostException
+     * @throws SmbException
+     * @throws MalformedURLException
+     */
     public static void main(String[] args) throws UnknownHostException, SmbException, MalformedURLException {
         String host = "192.168.60.40";
         String username = "publicxxxx@xxx.inc";
@@ -268,7 +272,7 @@ public final class SambaUtil {
         //Demo1: 演示从Samba服务器上下载指定的文件到本地
         System.out.println("Demo1: Downloading File from Samba Server to Local");
         //"samba:samba_password@192.168.71.43/samba/demo1/testFile1.jpg";
-        String demo1RemoteSambaFileURL= "smb://" + username + ":" + password + "@" + host + filePath;
+        String demo1RemoteSambaFileUrl = "smb://" + username + ":" + password + "@" + host + filePath;
         String demo1LocalDir = "E:\\test\\samba";
 
         UniAddress ua = UniAddress.getByName(host);
@@ -282,10 +286,10 @@ public final class SambaUtil {
 
         //Demo2: 演示上传文件到Samba服务器指定目录
         System.out.println("Demo2:Uploading File from Local to Samba Server");
-        String demo2LocalFile= "E:\\test\\samba\\test.pdf";
+        String demo2LocalFile = "E:\\test\\samba\\test.pdf";
 
         String sambaDir = "E:\\abc";
-        String demo2RemoteSambaDirURL="smb://" + username + ":" + password + "@" + host + sambaDir;
+        String demo2RemoteSambaDirUrl = "smb://" + username + ":" + password + "@" + host + sambaDir;
 
         String filePathUpload = sambaDir + "/" + new File(demo2LocalFile).getName();
         String url = "smb://" + host + filePathUpload;

@@ -16,7 +16,7 @@ import java.util.Vector;
  * @date: 2018/4/2 16:35
  */
 public final class FtpUtil {
-    private FtpUtil() {}
+    private FtpUtil() { }
 
     /**
      * 连接sftp服务器
@@ -102,78 +102,6 @@ public final class FtpUtil {
     }
 
     /**
-     * 删除文件
-     * @param directory 要删除文件所在目录
-     * @param deleteFile 要删除的文件
-     * @param sftp
-     */
-    public static void delete(String directory, String deleteFile, ChannelSftp sftp) {
-        try {
-            sftp.cd(directory);
-            sftp.rm(deleteFile);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * 列出目录下的文件
-     * @param directory 要列出的目录
-     * @param sftp
-     * @return
-     * @throws SftpException
-     */
-    public static Vector<?> listFiles(String directory, ChannelSftp sftp) throws SftpException {
-        return sftp.ls(directory);
-    }
-
-    protected static void mkdir(String directory, ChannelSftp sftp) {
-        try {
-            sftp.ls(directory);
-        } catch (SftpException e) {
-            try {
-                sftp.mkdir(directory);
-            } catch (SftpException ex) {
-                ex.printStackTrace();
-            }
-        }
-    }
-
-    /**
-     *
-     * @param directory
-     * @param sftp
-     */
-    public static void mkdirs(String directory, ChannelSftp sftp){
-        List<String> fileNames = getFileNames(directory);
-        StringBuffer buf = new StringBuffer();
-        if (fileNames != null && fileNames.size() > 0) {
-            for (String fileName : fileNames) {
-                buf.append("/");
-                buf.append(fileName);
-                mkdir(buf.toString(), sftp);
-            }
-        }
-    }
-
-    protected static List<String> getFileNames(String dir){
-        File file = new File(dir);
-        List<String> list = new ArrayList<String>();
-        if (file.getParentFile() != null) {
-            List<String> fileNames = getFileNames(file.getParentFile().getPath());
-            for (String fileName : fileNames) {
-                if (fileName != null && !"".equals(fileName)) {
-                    list.add(fileName);
-                }
-            }
-        }
-        if (!"".equals(file.getName())) {
-            list.add(file.getName());
-        }
-        return list;
-    }
-
-    /**
      * 从ftp上下载文件到localPath
      * @param fileName
      * @param localPath
@@ -216,6 +144,78 @@ public final class FtpUtil {
             e.printStackTrace();
         }
         return success;
+    }
+
+    /**
+     * 删除文件
+     * @param directory 要删除文件所在目录
+     * @param deleteFile 要删除的文件
+     * @param sftp
+     */
+    public static void delete(String directory, String deleteFile, ChannelSftp sftp) {
+        try {
+            sftp.cd(directory);
+            sftp.rm(deleteFile);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 列出目录下的文件
+     * @param directory 要列出的目录
+     * @param sftp
+     * @return
+     * @throws SftpException
+     */
+    public static Vector<?> listFiles(String directory, ChannelSftp sftp) throws SftpException {
+        return sftp.ls(directory);
+    }
+
+    protected static void mkdir(String directory, ChannelSftp sftp) {
+        try {
+            sftp.ls(directory);
+        } catch (SftpException e) {
+            try {
+                sftp.mkdir(directory);
+            } catch (SftpException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     *
+     * @param directory
+     * @param sftp
+     */
+    public static void mkdirs(String directory, ChannelSftp sftp) {
+        List<String> fileNames = getFileNames(directory);
+        StringBuffer buf = new StringBuffer();
+        if (fileNames != null && fileNames.size() > 0) {
+            for (String fileName : fileNames) {
+                buf.append("/");
+                buf.append(fileName);
+                mkdir(buf.toString(), sftp);
+            }
+        }
+    }
+
+    protected static List<String> getFileNames(String dir) {
+        File file = new File(dir);
+        List<String> list = new ArrayList<String>();
+        if (file.getParentFile() != null) {
+            List<String> fileNames = getFileNames(file.getParentFile().getPath());
+            for (String fileName : fileNames) {
+                if (fileName != null && !"".equals(fileName)) {
+                    list.add(fileName);
+                }
+            }
+        }
+        if (!"".equals(file.getName())) {
+            list.add(file.getName());
+        }
+        return list;
     }
 
     /**

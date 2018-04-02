@@ -1,10 +1,10 @@
-package main.java.fortest;
+package main.java.forcom;
 
 /**
  * @Author youxingyang
  * @date 2018/4/118:26
  */
-public class ForTestArray {
+public class ForComArray {
 
     public static int[] create(int num) {
         int[] arr = new int[num];

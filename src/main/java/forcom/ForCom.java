@@ -1,4 +1,4 @@
-package main.java.fortest;
+package main.java.forcom;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -13,20 +13,29 @@ import java.util.concurrent.TimeUnit;
  * @Author youxingyang
  * @date 2018/4/118:26
  */
-public class ForTest {
+public class ForCom {
 
+    /**
+     * @param list
+     */
     public static void print(List<String> list) {
         for (int i = 0; i < list.size(); i++) {
             System.out.println(list.get(i));
         }
     }
 
+    /**
+     * @param list
+     */
     public static void print1(List<String> list) {
         for (String s : list) {
             System.out.println(s);
         }
     }
 
+    /**
+     * @param list
+     */
     public static void print2(List<String> list) {
         Iterator iterator = list.iterator();
         while (iterator.hasNext()) {
@@ -34,6 +43,12 @@ public class ForTest {
         }
     }
 
+    /**
+     * @param num
+     * @param isLinkedList
+     * @param list
+     * @return
+     */
     public static List<String> create(long num, boolean isLinkedList, List<String> list) {
         if (isLinkedList) {
             list = new LinkedList<>();
@@ -46,6 +61,9 @@ public class ForTest {
         return list;
     }
 
+    /**
+     * @param args
+     */
     public static void main(String[] args) {
 
         int num = 500;
@@ -84,7 +102,8 @@ public class ForTest {
         private List<String> list;
         private String type;
         private String cate;
-        public ForTask(List<String> list, String cate, String type) {
+
+        ForTask(List<String> list, String cate, String type) {
             this.list = list;
             this.cate = cate;
             this.type = type;
@@ -92,7 +111,7 @@ public class ForTest {
 
         @Override
         public String call() {
-            long a = System.currentTimeMillis();
+            long aaStart = System.currentTimeMillis();
             if ("for".equals(type)) {
                 print(list);
             } else if ("foreach".equals(type)) {
@@ -102,8 +121,8 @@ public class ForTest {
             } else {
                 System.out.println("not matched");
             }
-            long b = System.currentTimeMillis();
-            String res = cate + " " + type + " -> 耗时：" + (b - a) + "ms";
+            long bbStart = System.currentTimeMillis();
+            String res = cate + " " + type + " -> 耗时：" + (bbStart - aaStart) + "ms";
             System.out.println(res);
             return res;
         }

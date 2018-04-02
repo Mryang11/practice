@@ -1,4 +1,6 @@
-package main.java.fortest;
+package main.java.forcom;
+
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +10,7 @@ import java.util.List;
  * @date 2018/4/118:26
  */
 public class ForOne {
+    @Test
     public static void main(String[] args) {
         List<String> list = new ArrayList<>();
         list.add("1");

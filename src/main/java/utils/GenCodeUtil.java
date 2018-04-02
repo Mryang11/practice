@@ -8,8 +8,10 @@ import java.util.regex.Pattern;
  * @date: 2018/3/30 14:50
  */
 public final class GenCodeUtil {
-    private GenCodeUtil() {}
+    private GenCodeUtil() { }
+
     private static Pattern blank = Pattern.compile("^[//s&&[^//n]]*$");
+
     public static void main(String[] args) {
         transferFile("C:\\Users\\domainclient\\Desktop\\src.txt", "C:\\Users\\domainclient\\Desktop\\des.txt");
     }
