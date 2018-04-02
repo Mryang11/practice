@@ -24,7 +24,7 @@ public class GenCodeUtil {
      * @return          a.serial_number
      */
     public static String formatSelectContent(String src, String start, String end, String prefix) {
-        if (isEmpty(src) || isEmpty(start) || isEmpty(end) || prefix == null || !src.contains(start) || !src.contains(end)) {
+        if (CommUtil.isEmpty(src) || CommUtil.isEmpty(start) || CommUtil.isEmpty(end) || prefix == null || !src.contains(start) || !src.contains(end)) {
             return "";
         }
         return prefix + src.substring(src.indexOf(start) + start.length(), src.lastIndexOf(end));
@@ -92,14 +92,5 @@ public class GenCodeUtil {
                 }
             }
         }
-    }
-
-    /**
-     * 是否是空
-     * @param string
-     * @return
-     */
-    public static boolean isEmpty(String string) {
-        return "".equals(string) || string == null;
     }
 }
