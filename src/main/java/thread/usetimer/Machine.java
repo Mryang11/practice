@@ -34,7 +34,11 @@ public class Machine extends Thread {
         //10ms以后开始执行task任务,以后每个500ms执行一次
         timer.schedule(task, 10, 500);
     }
-    public void reset(){a = 0;}
+
+    public void reset() {
+        a = 0;
+    }
+
     @Override
     public void run() {
         while (true) {
@@ -47,7 +51,7 @@ public class Machine extends Thread {
         }
     }
 
-    public static void main(String[] args)throws Exception {
+    public static void main(String[] args) throws Exception {
         Machine machine = new Machine();
         machine.start();
     }

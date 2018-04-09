@@ -8,7 +8,8 @@ import java.util.regex.Pattern;
  * @date: 2018/3/30 14:50
  */
 public final class GenCodeUtil {
-    private GenCodeUtil() { }
+    private GenCodeUtil() {
+    }
 
     private static Pattern blank = Pattern.compile("^[//s&&[^//n]]*$");
 
@@ -17,13 +18,14 @@ public final class GenCodeUtil {
     }
 
     /**
-     *      <result column="serial_number" property="serialNumber"/>
-     ->     a.serial_number
-     * @param src       xml里定义的集合resultMap
-     * @param start     截取字符头   保证唯一
-     * @param end       截取字符尾   保证唯一
-     * @param prefix    结果前缀
-     * @return          a.serial_number
+     * <result column="serial_number" property="serialNumber"/>
+     * ->     a.serial_number
+     *
+     * @param src    xml里定义的集合resultMap
+     * @param start  截取字符头   保证唯一
+     * @param end    截取字符尾   保证唯一
+     * @param prefix 结果前缀
+     * @return a.serial_number
      */
     public static String formatSelectContent(String src, String start, String end, String prefix) {
         if (CommUtil.isEmpty(src) || CommUtil.isEmpty(start) || CommUtil.isEmpty(end) || prefix == null || !src.contains(start) || !src.contains(end)) {
@@ -34,6 +36,7 @@ public final class GenCodeUtil {
 
     /**
      * 转换show -> info
+     *
      * @param src
      * @param des
      */

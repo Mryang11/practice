@@ -5,10 +5,12 @@ package main.java.utils;
  * @date: 2018/4/2 9:27
  */
 public final class CommUtil {
-    private CommUtil() { }
+    private CommUtil() {
+    }
 
     /**
      * 是否是空
+     *
      * @param string
      * @return
      */

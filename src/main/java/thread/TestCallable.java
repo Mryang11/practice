@@ -12,9 +12,11 @@ public class TestCallable {
 
     private static class Worker implements Callable<String> {
         private int i;
+
         public Worker(int i) {
             this.i = i;
         }
+
         @Override
         public String call() throws Exception {
             return "*******" + i + "*******";

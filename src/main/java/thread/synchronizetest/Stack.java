@@ -8,13 +8,18 @@ public class Stack {
     private String name;
     private String[] buffer = new String[100];
     int point = -1;
-    public Stack(String name) {this.name = name;}
+
+    public Stack(String name) {
+        this.name = name;
+    }
 
     public String getName() {
         return name;
     }
 
-    public synchronized int getPoint() {return point;}
+    public synchronized int getPoint() {
+        return point;
+    }
 
     public synchronized String pop() {
         synchronized (this) {
@@ -37,7 +42,7 @@ public class Stack {
 
     }
 
-    public synchronized void push(String goods){
+    public synchronized void push(String goods) {
         point++;
         Thread.yield();
         buffer[point] = goods;

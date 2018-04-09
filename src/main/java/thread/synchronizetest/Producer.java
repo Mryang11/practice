@@ -12,6 +12,7 @@ public class Producer extends Thread {
         theStack = s;
         start();    //启动自身生产者线程
     }
+
     @Override
     public void run() {
         String goods;

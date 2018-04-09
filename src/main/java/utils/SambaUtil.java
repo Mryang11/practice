@@ -8,17 +8,19 @@ import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 
 /**
- * @Author  youxingyang
- * @date    2017-7-31 下午5:05:24
+ * @Author youxingyang
+ * @date 2017-7-31 下午5:05:24
  */
 public final class SambaUtil {
 
-    private SambaUtil() { }
+    private SambaUtil() {
+    }
 
     /**
      * 从服务器上下载指定的文件到本地目录
-     * @param remoteFileUrl   Samba服务器远程文件的路径
-     * @param localDir        本地目录的路径
+     *
+     * @param remoteFileUrl Samba服务器远程文件的路径
+     * @param localDir      本地目录的路径
      */
     public static void downloadFileFromSamba(String remoteFileUrl, String localDir) {
         if ((remoteFileUrl == null) || ("".equals(remoteFileUrl.trim()))) {
@@ -64,14 +66,14 @@ public final class SambaUtil {
             e.printStackTrace();
 
         } finally {
-            try  {
+            try {
                 if (out != null) {
                     out.close();
                 }
                 if (in != null) {
                     in.close();
                 }
-            } catch  (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
@@ -79,8 +81,9 @@ public final class SambaUtil {
 
     /**
      * 从服务器上下载指定的文件到本地目录
-     * @param remoteSmbFile   Samba服务器远程文件
-     * @param localDir        本地目录的路径
+     *
+     * @param remoteSmbFile Samba服务器远程文件
+     * @param localDir      本地目录的路径
      * @throws SmbException
      */
 
@@ -128,14 +131,14 @@ public final class SambaUtil {
             e.printStackTrace();
 
         } finally {
-            try  {
+            try {
                 if (out != null) {
                     out.close();
                 }
                 if (in != null) {
                     in.close();
                 }
-            } catch  (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
@@ -143,6 +146,7 @@ public final class SambaUtil {
 
     /**
      * 上传本地文件到Samba服务器指定目录
+     *
      * @param remoteDirUrl  Samba服务器远程目录的路径
      * @param localFilePath 本地文件路径
      */
@@ -174,26 +178,26 @@ public final class SambaUtil {
             SmbFile remoteSmbFile = new SmbFile(remoteDirUrl + File.separator + localFileName);
 
             //打开一个文件输入流执行本地文件，要从它读取内容
-            in = new  BufferedInputStream(new FileInputStream(localFile));
+            in = new BufferedInputStream(new FileInputStream(localFile));
 
             //打开一个远程Samba文件输出流，作为复制到的目的地
-            out = new  BufferedOutputStream(new SmbFileOutputStream(remoteSmbFile));
+            out = new BufferedOutputStream(new SmbFileOutputStream(remoteSmbFile));
 
             //缓冲内存
-            byte[] buffer =  new byte[1024];
+            byte[] buffer = new byte[1024];
             while (in.read(buffer) != -1) {
                 out.write(buffer);
                 buffer = new byte[1024];
             }
 
-        } catch  (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
 
-        } finally  {
-            try  {
+        } finally {
+            try {
                 out.close();
                 in.close();
-            } catch  (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
@@ -201,6 +205,7 @@ public final class SambaUtil {
 
     /**
      * 上传本地文件到Samba服务器指定目录
+     *
      * @param url           URL
      * @param auth          auth
      * @param localFilePath 本地文件路径
@@ -241,18 +246,18 @@ public final class SambaUtil {
                 buffer = new byte[1024];
             }
 
-        } catch  (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
 
-        } finally  {
-            try  {
+        } finally {
+            try {
                 if (out != null) {
                     out.close();
                 }
                 if (in != null) {
                     in.close();
                 }
-            } catch  (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }

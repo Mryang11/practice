@@ -19,6 +19,7 @@ public class Machine extends Thread {
             }
         }
     }
+
     public static void main(String[] args) throws Exception {
         Machine machine = new Machine();
         machine.setName("m1");

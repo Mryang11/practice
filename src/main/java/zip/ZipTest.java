@@ -14,6 +14,7 @@ import java.io.IOException;
  */
 public class ZipTest {
     private static int DEFAULT_BUFFER_SIZE = 16 * 1024;
+
     public static void main(String[] args) {
         //要压缩的路径
         String zipPath = "E://TESTZIP//新建文件夹";
@@ -37,9 +38,10 @@ public class ZipTest {
 
     /**
      * 压缩文件或者文件夹-worker
-     * @param zOut    zip输出流
-     * @param file    文件或者文件夹
-     * @param name    文件或者文件夹名称
+     *
+     * @param zOut zip输出流
+     * @param file 文件或者文件夹
+     * @param name 文件或者文件夹名称
      */
     public static void zip(ZipOutputStream zOut, File file, String name) {
         try {
@@ -64,8 +66,9 @@ public class ZipTest {
 
     /**
      * 写文件到out
-     * @param zOut          输出流
-     * @param file          目标文件
+     *
+     * @param zOut 输出流
+     * @param file 目标文件
      * @throws IOException
      */
     public static void writeFile(ZipOutputStream zOut, File file) throws IOException {

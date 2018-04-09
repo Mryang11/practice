@@ -10,14 +10,16 @@ import java.security.MessageDigest;
  * @date: 2018/3/30 14:46
  */
 public final class FileUtil {
-    private FileUtil() { }
+    private FileUtil() {
+    }
 
     private static final int BUFFER_SIZE = 16 * 1024;
     private static final int MD5_RABIX = 16;
 
     /**
      * 统计文件夹下的文件总数
-     * @param path  文件的绝对路径
+     *
+     * @param path 文件的绝对路径
      * @return
      */
     public static long getNumFromFile(String path) {
@@ -44,7 +46,8 @@ public final class FileUtil {
 
     /**
      * 获取文件夹下的所有文件的大小
-     * @param path      文件夹绝对路径
+     *
+     * @param path 文件夹绝对路径
      * @return
      */
     public static long getAllSizeFromFile(String path) {
@@ -71,7 +74,8 @@ public final class FileUtil {
 
     /**
      * 以适当方式显示文件大小.
-     * @param size          单位字节
+     *
+     * @param size 单位字节
      * @return
      */
     public static String getFormatSize(long size) {
@@ -103,6 +107,7 @@ public final class FileUtil {
 
     /**
      * 创建一个目录
+     *
      * @param filePath
      * @return
      */
@@ -137,7 +142,8 @@ public final class FileUtil {
 
     /**
      * 创建一个文件
-     * @param filePath  文件路径
+     *
+     * @param filePath 文件路径
      * @return
      */
     public static boolean createFile(String filePath) {
@@ -178,7 +184,8 @@ public final class FileUtil {
 
     /**
      * 判断该文件夹下至少有一个文件夹
-     * @param files     多个文件
+     *
+     * @param files 多个文件
      * @return
      */
     public static boolean containDir(File[] files) {
@@ -194,7 +201,8 @@ public final class FileUtil {
 
     /**
      * 获得md5
-     * @param file  文件
+     *
+     * @param file 文件
      * @return
      * @throws FileNotFoundException
      */
@@ -205,7 +213,8 @@ public final class FileUtil {
 
     /**
      * 获得md5
-     * @param fileName      文件名
+     *
+     * @param fileName 文件名
      * @return
      * @throws FileNotFoundException
      */
@@ -215,7 +224,8 @@ public final class FileUtil {
 
     /**
      * 获得md5
-     * @param inputStream       流
+     *
+     * @param inputStream 流
      * @return
      */
     public static String md5(InputStream inputStream) {

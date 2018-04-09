@@ -16,10 +16,12 @@ import java.util.Vector;
  * @date: 2018/4/2 16:35
  */
 public final class FtpUtil {
-    private FtpUtil() { }
+    private FtpUtil() {
+    }
 
     /**
      * 连接sftp服务器
+     *
      * @param host
      * @param port
      * @param username
@@ -54,7 +56,8 @@ public final class FtpUtil {
 
     /**
      * 上传文件
-     * @param directory 上传的目录
+     *
+     * @param directory  上传的目录
      * @param uploadFile 要上传的文件
      * @param sftp
      */
@@ -70,7 +73,8 @@ public final class FtpUtil {
 
     /**
      * 上传文件
-     * @param directory 上传的目录
+     *
+     * @param directory  上传的目录
      * @param uploadFile 要上传的文件
      * @param sftp
      */
@@ -86,9 +90,10 @@ public final class FtpUtil {
 
     /**
      * 下载文件
-     * @param directory 下载目录
+     *
+     * @param directory    下载目录
      * @param downloadFile 下载的文件
-     * @param saveFile 存在本地的路径
+     * @param saveFile     存在本地的路径
      * @param sftp
      */
     public static void download(String directory, String downloadFile, String saveFile, ChannelSftp sftp) {
@@ -103,6 +108,7 @@ public final class FtpUtil {
 
     /**
      * 从ftp上下载文件到localPath
+     *
      * @param fileName
      * @param localPath
      * @return
@@ -148,7 +154,8 @@ public final class FtpUtil {
 
     /**
      * 删除文件
-     * @param directory 要删除文件所在目录
+     *
+     * @param directory  要删除文件所在目录
      * @param deleteFile 要删除的文件
      * @param sftp
      */
@@ -163,6 +170,7 @@ public final class FtpUtil {
 
     /**
      * 列出目录下的文件
+     *
      * @param directory 要列出的目录
      * @param sftp
      * @return
@@ -185,7 +193,6 @@ public final class FtpUtil {
     }
 
     /**
-     *
      * @param directory
      * @param sftp
      */
@@ -219,7 +226,6 @@ public final class FtpUtil {
     }
 
     /**
-     *
      * @param args
      */
     public static void main(String[] args) {

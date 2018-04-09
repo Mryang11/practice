@@ -7,10 +7,12 @@ package main.java.thread.wrongstart;
 public class Machine extends Thread {
     //共享实例变量b
     private int b = 0;
+
     @Override
-    public void start(){
+    public void start() {
         run();
     }
+
     @Override
     public void run() {
         for (b = 0; b < 45; b++) {
@@ -22,6 +24,7 @@ public class Machine extends Thread {
             }
         }
     }
+
     public static void main(String[] args) {
         Machine m1 = new Machine();
         //覆盖start()方法之后，run方法由主线程执行,所以不应该随便覆盖start()方法

@@ -15,6 +15,7 @@ package main.java.thread.sleepyield;
 public class Machine extends Thread {
     private static StringBuffer log = new StringBuffer();
     private static int count = 0;
+
     @Override
     public void run() {
         for (int i = 0; i < 20; i++) {

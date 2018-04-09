@@ -7,6 +7,7 @@ package main.java.thread.synchronizetest;
  */
 public class Consumer extends Thread {
     private Stack theStack;
+
     public Consumer(Stack s, String name) {
         super(name);
         theStack = s;
@@ -14,6 +15,7 @@ public class Consumer extends Thread {
         start();
 
     }
+
     @Override
     public void run() {
         String goods;

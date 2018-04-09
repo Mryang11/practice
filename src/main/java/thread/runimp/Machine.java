@@ -6,6 +6,7 @@ package main.java.thread.runimp;
  */
 public class Machine implements Runnable {
     private int a = 0;
+
     @Override
     public void run() {
         for (a = 0; a < 23; a++) {
@@ -19,7 +20,7 @@ public class Machine implements Runnable {
     }
 
     public static void main(String[] args) {
-       /* Machine m1 = new Machine();
+        /* Machine m1 = new Machine();
         Thread t1 = new Thread(m1);
         //t1,t2共享同一个Machine对象m1,在执行run()方法时共享同一个实例变量a
         Thread t2 = new Thread(m1);

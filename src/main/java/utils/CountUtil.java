@@ -7,7 +7,8 @@ import java.io.*;
  * @date: 2018/4/2 16:56
  */
 public final class CountUtil {
-    private CountUtil() { }
+    private CountUtil() {
+    }
 
     // 代码行
     private static long normalLines = 0;
@@ -18,7 +19,8 @@ public final class CountUtil {
 
     /**
      * 查找出一个目录下所有的.java文件
-     * @param file  要查找的目录
+     *
+     * @param file 要查找的目录
      */
     public static void treeFile(File file) throws IOException {
 
@@ -44,6 +46,7 @@ public final class CountUtil {
 
     /**
      * 计算一个.java文件中的代码行，空行，注释行
+     *
      * @param file 要计算的.java文件
      */
     public static void sumCode(File file) throws IOException {
@@ -89,8 +92,9 @@ public final class CountUtil {
 
     /**
      * 统计一个字符串在另一个字符串中出现次数(不覆盖查找)
-     * @param str1  另一个字符串
-     * @param str2  一个字符串
+     *
+     * @param str1 另一个字符串
+     * @param str2 一个字符串
      * @return
      */
     public static int countInString(String str1, String str2) {
@@ -107,7 +111,6 @@ public final class CountUtil {
     }
 
     /**
-     *
      * @param args
      * @throws IOException
      */
