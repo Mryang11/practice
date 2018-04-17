@@ -1,4 +1,4 @@
-package main.java.thread.waitio;
+package thread.waitio;
 
 /**
  * @Author: youxingyang

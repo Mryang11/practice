@@ -1,4 +1,4 @@
-package main.java.utils;
+package utils;
 
 import jcifs.UniAddress;
 import jcifs.smb.*;

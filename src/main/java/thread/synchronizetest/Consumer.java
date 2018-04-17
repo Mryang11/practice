@@ -1,4 +1,4 @@
-package main.java.thread.synchronizetest;
+package thread.synchronizetest;
 
 
 /**

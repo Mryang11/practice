@@ -1,4 +1,4 @@
-package main.java.forcom;
+package forcom;
 
 /**
  * @Author youxingyang

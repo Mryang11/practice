@@ -1,4 +1,4 @@
-package main.java.thread.runimp;
+package thread.runimp;
 
 /**
  * @Author: youxingyang

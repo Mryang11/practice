@@ -1,4 +1,4 @@
-package main.java.utils;
+package utils;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;

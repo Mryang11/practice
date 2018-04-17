@@ -1,4 +1,4 @@
-package main.java.forcom;
+package forcom;
 
 import java.util.ArrayList;
 import java.util.Iterator;

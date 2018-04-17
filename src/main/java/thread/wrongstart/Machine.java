@@ -1,4 +1,4 @@
-package main.java.thread.wrongstart;
+package thread.wrongstart;
 
 /**
  * @Author: youxingyang

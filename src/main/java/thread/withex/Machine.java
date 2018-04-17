@@ -1,4 +1,4 @@
-package main.java.thread.withex;
+package thread.withex;
 
 /**
  * @Author: youxingyang

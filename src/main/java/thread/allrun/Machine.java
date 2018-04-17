@@ -1,4 +1,4 @@
-package main.java.thread.allrun;
+package thread.allrun;
 
 /**
  * @Author: youxingyang

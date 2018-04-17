@@ -1,4 +1,4 @@
-package main.java.thread.occupycpu;
+package thread.occupycpu;
 
 /**
  * @Author: youxingyang

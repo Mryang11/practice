@@ -1,4 +1,4 @@
-package main.java.sort;
+package sort;
 
 /**
  * Created on 2017/6/12

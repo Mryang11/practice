@@ -1,4 +1,4 @@
-package main.java.forcom;
+package forcom;
 
 import org.junit.Test;
 

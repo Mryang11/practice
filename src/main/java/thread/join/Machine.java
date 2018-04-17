@@ -1,4 +1,4 @@
-package main.java.thread.join;
+package thread.join;
 
 /**
  * @Author: youxingyang

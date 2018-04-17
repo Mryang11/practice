@@ -1,4 +1,4 @@
-package main.java.thread.sharevar;
+package thread.sharevar;
 
 /**
  * @Author: youxingyang

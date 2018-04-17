@@ -1,4 +1,4 @@
-package main.java.thread.usetimer;
+package thread.usetimer;
 
 import java.util.Timer;
 import java.util.TimerTask;

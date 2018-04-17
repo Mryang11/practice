@@ -1,4 +1,4 @@
-package main.java.zip;
+package zip;
 
 import org.apache.tools.zip.ZipEntry;
 import org.apache.tools.zip.ZipOutputStream;
