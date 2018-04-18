@@ -8,6 +8,7 @@ public final class BaseDataUtil {
     private BaseDataUtil() {
     }
 
+    /**根据协议在发送网络流的时候需要将所有int及long转换成byte**/
     /**
      * int 2 byte[]
      * @param num
