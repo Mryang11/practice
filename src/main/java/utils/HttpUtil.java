@@ -1,264 +1,344 @@
 package utils;
 
-import javax.net.ssl.HttpsURLConnection;
+import net.sf.json.JSONObject;
+import org.apache.http.*;
+import org.apache.http.client.HttpRequestRetryHandler;
+import org.apache.http.client.methods.*;
+import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.conn.ConnectTimeoutException;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.protocol.HttpContext;
+import org.apache.http.ssl.SSLContextBuilder;
+import org.apache.http.ssl.TrustStrategy;
+
 import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-import java.io.*;
-import java.net.URL;
-import java.net.URLConnection;
+import javax.net.ssl.SSLException;
+import java.io.IOException;
+import java.io.InterruptedIOException;
+import java.net.UnknownHostException;
+import java.nio.charset.Charset;
 import java.security.KeyManagementException;
+import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 /**
  * @Author: youxingyang
  * @date: 2018/4/2 17:06
  */
 public final class HttpUtil {
-    private HttpUtil() {
+
+    /**
+     * 默认请求重试次数, 3次
+     */
+    private static int RETRY_COUNT = 3;
+
+
+    /**
+     *
+     */
+    private List<Header> headers = null;
+
+    /**
+     *
+     */
+    private static final String DEFAULT_CONTENT_ENCODING = "UTF-8";
+
+
+    /**
+     *
+     */
+    public HttpUtil() {
+        this.init();
     }
 
-    private static TrustManager myX509TrustManager = new X509TrustManager() {
-
-        @Override
-        public void checkClientTrusted(X509Certificate[] arg0, String arg1)
-                throws CertificateException {
-
+    /**
+     * @param requestHeaders
+     */
+    public HttpUtil(Collection<? extends Header> requestHeaders) {
+        if (requestHeaders instanceof List) {
+            this.headers = (List) requestHeaders;
         }
+        this.init();
+    }
 
-        @Override
-        public void checkServerTrusted(X509Certificate[] arg0, String arg1)
-                throws CertificateException {
 
+    /**
+     *
+     */
+    private void init() {
+        if (this.headers == null) {
+            this.headers = new ArrayList<>();
         }
+    }
 
-        @Override
-        public X509Certificate[] getAcceptedIssuers() {
-            return null;
+    /**
+     * 设置请求重试机制,默认为3次
+     */
+    private static HttpRequestRetryHandler requestRetryHandler = (IOException exception, int executionCount, HttpContext context) -> {
+        if (executionCount >= RETRY_COUNT) {
+            exception.printStackTrace();
+            return false;
         }
+        if (exception instanceof InterruptedIOException) {
+            // Timeout
+            exception.printStackTrace();
+            return false;
+        }
+        if (exception instanceof UnknownHostException) {
+            // Unknown host
+            exception.printStackTrace();
+            return false;
+        }
+        if (exception instanceof ConnectTimeoutException) {
+            // Connection refused
+            exception.printStackTrace();
+            return false;
+        }
+        if (exception instanceof SSLException) {
+            // SSL handshake exception
+            exception.printStackTrace();
+            return false;
+        }
+        HttpClientContext clientContext = HttpClientContext.adapt(context);
+        HttpRequest request = clientContext.getRequest();
+        boolean idempotent = !(request instanceof HttpEntityEnclosingRequest);
+        if (idempotent) {
+            // Retry if the request is considered idempotent
+            return true;
+        }
+        return false;
     };
 
     /**
-     * 向指定URL发送GET方法的请求
-     *
-     * @param url   发送请求的URL
-     * @param param 请求参数，请求参数应该是 name1=value1&name2=value2 的形式。
-     * @return URL      所代表远程资源的响应结果
+     * @param headers
      */
-    public static String sendGet(String url, String param) {
-        String result = "";
-        BufferedReader in = null;
-        try {
-            param = new String(param.getBytes("ISO-8859-1"), "UTF-8");
-            String urlNameString = url + "?" + param;
-            URL realUrl = new URL(urlNameString);
-            // 打开和URL之间的连接
-            URLConnection connection = realUrl.openConnection();
-            // 设置通用的请求属性
-            connection.setRequestProperty("accept", "*/*");
-            connection.setRequestProperty("connection", "Keep-Alive");
-            connection.setRequestProperty("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
-            // 建立实际的连接
-            connection.connect();
-            // 获取所有响应头字段
-            Map<String, List<String>> map = connection.getHeaderFields();
-            // 遍历所有的响应头字段
-            /*for (String key : map.keySet()) {
-                System.out.println(key + "--->" + map.get(key));
-            }*/
-            // 定义 BufferedReader输入流来读取URL的响应
-            in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
-            String line;
-            while ((line = in.readLine()) != null) {
-                result += line;
-            }
-        } catch (Exception e) {
-            System.out.println("发送GET请求出现异常！" + e);
-            e.printStackTrace();
-        } finally {
-            try {
-                if (in != null) {
-                    in.close();
-                }
-            } catch (Exception e2) {
-                e2.printStackTrace();
-            }
-        }
-        return result;
+    public void setHeaders(List<Header> headers) {
+        this.headers = headers;
     }
 
     /**
-     * 向指定 URL 发送POST方法的请求
-     *
-     * @param url   发送请求的 URL
-     * @param param 请求参数，请求参数应该是 name1=value1&name2=value2 的形式。
-     * @return 所代表远程资源的响应结果
+     * @param header
      */
-    public static String sendPost(String url, String param) {
-        PrintWriter out = null;
-        BufferedReader in = null;
-        String result = "";
+    public void setHeaders(Header header) {
+        this.headers.add(header);
+    }
+
+    /**
+     * @param key
+     * @param value
+     */
+    public void setHeaders(String key, String value) {
+        this.headers.add(this.getHeader(key, value));
+    }
+
+    /**
+     * @param key
+     * @param value
+     * @return
+     */
+    private Header getHeader(String key, String value) {
+        return new Header() {
+            @Override
+            public String getName() {
+                return key;
+            }
+
+            @Override
+            public String getValue() {
+                return value;
+            }
+
+            @Override
+            public HeaderElement[] getElements() throws ParseException {
+                return new HeaderElement[0];
+            }
+        };
+    }
+
+    /**
+     * 获取支持ssl的httpclient
+     *
+     * @return
+     */
+    private CloseableHttpClient getHttpsClient() {
         try {
-            URL realUrl = new URL(url);
-            // 打开和URL之间的连接
-            URLConnection conn = realUrl.openConnection();
-            // 设置通用的请求属性
-            conn.setRequestProperty("accept", "*/*");
-            conn.setRequestProperty("connection", "Keep-Alive");
-            conn.setRequestProperty("user-agent",
-                    "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
-            // 发送POST请求必须设置如下两行
-            conn.setDoOutput(true);
-            conn.setDoInput(true);
-            // 获取URLConnection对象对应的输出流
-            out = new PrintWriter(conn.getOutputStream());
-            // 发送请求参数
-            out.print(param);
-            // flush输出流的缓冲
-            out.flush();
-            // 定义BufferedReader输入流来读取URL的响应
-            in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
-            String line;
-            while ((line = in.readLine()) != null) {
-                result += line;
-            }
-        } catch (Exception e) {
-            System.out.println("发送 POST 请求出现异常！" + e);
+            SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial(null, new TrustStrategy() {
+                //信任所有
+                @Override
+                public boolean isTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                    return true;
+                }
+            }).build();
+
+            SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslContext);
+
+            return HttpClients.custom()
+                    .setRetryHandler(requestRetryHandler)
+                    .setSSLSocketFactory(sslsf).build();
+
+        } catch (KeyManagementException | NoSuchAlgorithmException | KeyStoreException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if (out != null) {
-                    out.close();
-                }
-                if (in != null) {
-                    in.close();
-                }
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
         }
-        return result;
+
+        return HttpClients.createDefault();
+    }
+
+    /**
+     * 获取httpclient
+     *
+     * @return
+     */
+    private CloseableHttpClient getHttpClient() {
+
+        return HttpClients.custom()
+                .setRetryHandler(requestRetryHandler)
+                .build();
     }
 
     /**
      * @param url
      * @param data
+     * @param method
+     * @param ssl
      * @return
      */
-    public static String sendHttpsPost(String url, String data) {
-        String result = null;
+    public Optional<CloseableHttpResponse> sendRequest(String url, String data, String method, boolean ssl) throws Exception {
 
-        try {
-            // 设置SSLContext
-            SSLContext sslcontext = SSLContext.getInstance("TLS");
-            sslcontext.init(null, new TrustManager[]{myX509TrustManager}, null);
-
-            // 打开连接
-            // 要发送的POST请求url?Key=Value&amp;Key2=Value2&amp;Key3=Value3的形式
-            URL requestUrl = new URL(url);
-            HttpsURLConnection httpsConn = (HttpsURLConnection) requestUrl.openConnection();
-
-            // 设置套接工厂
-            httpsConn.setSSLSocketFactory(sslcontext.getSocketFactory());
-
-            // 加入数据
-            httpsConn.setRequestMethod("POST");
-            httpsConn.setDoOutput(true);
-            OutputStream out = httpsConn.getOutputStream();
-
-            if (data != null) {
-                out.write(data.getBytes("UTF-8"));
-            }
-            out.flush();
-            out.close();
-
-            //获取输入流
-            BufferedReader in = new BufferedReader(new InputStreamReader(httpsConn.getInputStream()));
-            int code = httpsConn.getResponseCode();
-            if (HttpsURLConnection.HTTP_OK == code) {
-                String temp = in.readLine();
-                while (temp != null) {
-                    if (result != null) {
-                        result += temp;
-                    } else {
-                        result = temp;
-                    }
-                    temp = in.readLine();
-                }
-            }
-        } catch (KeyManagementException | NoSuchAlgorithmException | IOException e) {
-            e.printStackTrace();
+        CloseableHttpClient client;
+        if (ssl) {
+            client = this.getHttpsClient();
+        } else {
+            client = this.getHttpClient();
         }
 
-        return result;
+        String requestMethon = method.toUpperCase();
+        switch (requestMethon) {
+            case "POST":
+                return this.postRequest(client, url, data);
+            case "GET":
+                return this.getRequest(client, url, data);
+            case "DELETE":
+                return this.deleteRequest(client, url);
+            case "PUT":
+                return this.putRequest(client, url, data);
+            default:
+                //TODO 国际化
+                try {
+                    client.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                throw new Exception("Unsupported request method: " + method);
+        }
     }
 
     /**
      * @param url
+     * @param data
+     * @param method
      * @return
+     * @throws Exception
      */
-    public static String sendHttpsGet(String url) {
-        String result = null;
+    public Optional<CloseableHttpResponse> sendRequest(String url, String data, String method) throws Exception {
 
-        try {
-            // 设置SSLContext
-            SSLContext sslcontext = SSLContext.getInstance("TLS");
-            sslcontext.init(null, new TrustManager[]{myX509TrustManager}, null);
-
-            // 打开连接
-            // 要发送的POST请求url?Key=Value&amp;Key2=Value2&amp;Key3=Value3的形式
-            URL requestUrl = new URL(url);
-            HttpsURLConnection httpsConn = (HttpsURLConnection) requestUrl.openConnection();
-
-            // 设置套接工厂
-            httpsConn.setSSLSocketFactory(sslcontext.getSocketFactory());
-
-            // 加入数据
-            httpsConn.setRequestMethod("GET");
-            //httpsConn.setDoOutput(true);
-            //获取输入流
-            BufferedReader in = new BufferedReader(new InputStreamReader(httpsConn.getInputStream()));
-            int code = httpsConn.getResponseCode();
-            if (HttpsURLConnection.HTTP_OK == code) {
-                String temp = in.readLine();
-                while (temp != null) {
-                    if (result != null) {
-                        result += temp;
-                    } else {
-                        result = temp;
-                    }
-                    temp = in.readLine();
-                }
-            }
-        } catch (KeyManagementException | NoSuchAlgorithmException | IOException e) {
-            e.printStackTrace();
-        }
-
-        return result;
+        return this.sendRequest(url, data, method, false);
     }
 
     /**
+     * @param client
+     * @param url
+     * @param data
+     * @return
+     */
+    private Optional<CloseableHttpResponse> postRequest(CloseableHttpClient client, String url, String data) {
+        HttpPost postRequest = new HttpPost(url);
+        if (!"".equals(data)) {
+            StringEntity entity = new StringEntity(data, Charset.forName(DEFAULT_CONTENT_ENCODING));
+            entity.setContentEncoding(DEFAULT_CONTENT_ENCODING);
+            entity.setContentType("application/json");
+            postRequest.setEntity(entity);
+        }
+        return this.doRequest(client, postRequest);
+    }
+
+    /**
+     * @param client
+     * @param url
+     * @param data
+     * @return
+     */
+    private Optional<CloseableHttpResponse> getRequest(CloseableHttpClient client, String url, String data) {
+        String requestUrl;
+        if (data != null && !"".equals(data)) {
+            JSONObject parameters = JSONObject.fromObject(data);
+            List<String> paramterList = new ArrayList<>();
+            for (Object paramKey : parameters.keySet()) {
+                paramterList.add(paramKey + "=" + parameters.get(paramKey));
+            }
+            requestUrl = url + "?" + "".join("&", paramterList);
+        } else {
+            requestUrl = url;
+        }
+        HttpGet get = new HttpGet(requestUrl);
+        return this.doRequest(client, get);
+    }
+
+    /**
+     * @param client
      * @param url
      * @return
      */
-    public static String getJsonByUrl(String url) {
-        StringBuilder json = new StringBuilder();
+    private Optional<CloseableHttpResponse> deleteRequest(CloseableHttpClient client, String url) {
+        HttpDelete deleteRequest = new HttpDelete(url);
+        return this.doRequest(client, deleteRequest);
+    }
+
+    /**
+     * @param client
+     * @param url
+     * @param data
+     * @return
+     */
+    private Optional<CloseableHttpResponse> putRequest(CloseableHttpClient client, String url, String data) {
+        HttpPut putRequest = new HttpPut(url);
+        if (data != null && !"".equals(data)) {
+            StringEntity entity = new StringEntity(data, Charset.forName(DEFAULT_CONTENT_ENCODING));
+            entity.setContentEncoding(DEFAULT_CONTENT_ENCODING);
+            entity.setContentType("application/json");
+            putRequest.setEntity(entity);
+        }
+        return this.doRequest(client, putRequest);
+    }
+
+    /**
+     * @param client
+     * @param request
+     * @return
+     */
+    private Optional<CloseableHttpResponse> doRequest(CloseableHttpClient client, HttpRequestBase request) {
+        Optional<CloseableHttpResponse> responseResult;
+        CloseableHttpResponse response = null;
+
+        if (this.headers != null && !this.headers.isEmpty()) {
+            request.setHeaders(this.headers.toArray(new Header[this.headers.size()]));
+        }
+
         try {
-            URL oracle = new URL(url);
-            URLConnection connection = oracle.openConnection();
-            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
-            String inputLine;
-            while ((inputLine = in.readLine()) != null) {
-                json.append(inputLine);
-            }
-            in.close();
-        } catch (IOException e) {
+            response = client.execute(request);
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        return json.toString();
+
+        responseResult = Optional.ofNullable(response);
+        return responseResult;
     }
 }
