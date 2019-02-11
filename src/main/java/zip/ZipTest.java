@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Date;
 
 /**
  * @Author: youxingyang
@@ -21,7 +22,7 @@ public class ZipTest {
 
         //生成的压缩文件位置
         String tmpFileName = "test.zip";
-        String strZipPath = "E://TESTZIP" + File.separator + tmpFileName;
+        String strZipPath = "E://TESTZIP//" + File.separator + tmpFileName;
 
         try {
             ZipOutputStream out = new ZipOutputStream(new FileOutputStream(strZipPath));
@@ -49,6 +50,38 @@ public class ZipTest {
                 File[] listFiles = file.listFiles();
                 name += "/";
                 zOut.putNextEntry(new ZipEntry(name));
+                if (listFiles != null) {
+                    for (File listFile : listFiles) {
+                        zip(zOut, listFile, name + listFile.getName());
+                    }
+                }
+            } else {
+                zOut.putNextEntry(new ZipEntry(name));
+                writeFile(zOut, file);
+            }
+            zOut.setEncoding("GBK");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 压缩文件或者文件夹-worker
+     *
+     * @param zOut          zip输出流
+     * @param file          文件或者文件夹
+     * @param name          文件或者文件夹名称
+     * @param first         第一级文件夹是否压缩
+     * @param containsDir   压缩是否包含文件夹
+     */
+    public static void zip(ZipOutputStream zOut, File file, String name, boolean first, boolean containsDir) {
+        try {
+            if (file.isDirectory()) {
+                File[] listFiles = file.listFiles();
+                name += "/";
+                if (containsDir && first) {
+                    zOut.putNextEntry(new ZipEntry(name));
+                }
                 if (listFiles != null) {
                     for (File listFile : listFiles) {
                         zip(zOut, listFile, name + listFile.getName());

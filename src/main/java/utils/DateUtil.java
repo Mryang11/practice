@@ -1,5 +1,7 @@
 package utils;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -20,6 +22,31 @@ public final class DateUtil {
     public static final String YYYY = "yyyy";
     public static final String MM = "MM";
     public static final String DD = "dd";
+
+    /**
+     * 按照参数format的格式，日期转字符串
+     * @param dateDate
+     * @return
+     */
+    public static String date2Str(Date dateDate) {
+        return date2Str(dateDate, "yyyy-MM-dd");
+    }
+
+    /**
+     * 按照参数format的格式，日期转字符串
+     *
+     * @param date
+     * @param format
+     * @return
+     */
+    public static String date2Str(Date date, String format) {
+        if (date != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat(format);
+            return sdf.format(date);
+        } else {
+            return "";
+        }
+    }
 
     /**
      * 格式化日期对象
@@ -171,4 +198,54 @@ public final class DateUtil {
         Calendar cal = Calendar.getInstance();
         return cal.getTimeInMillis() - time;
     }
+
+    /**
+     * 3/3/1980  =>  1980-03-03
+     * @param birthday
+     * @return
+     */
+    public static String transDate(String birthday) {
+        String res = "";
+        if (StringUtils.isNotBlank(birthday)) {
+            if (birthday.contains("/")) {
+                String[] arr = birthday.split("/");
+                if (arr.length == 3) {
+                    String month = arr[0];
+                    String day = arr[1];
+                    String year = arr[2];
+                    if (month.length() == 1) {
+                        month = "0" + month;
+                    }
+                    if (day.length() == 1) {
+                        day = "0" + day;
+                    }
+                    res = year + "-" + month + "-" + day;
+                }
+            }
+        }
+        return res;
+    }
+
+    public static void main(String[] args) {
+        double highCount = 908;
+        double sameCount = 787;
+        double lowCount = 107;
+        double sum = highCount + sameCount + lowCount;
+        double high;
+        double same;
+        double low;
+        high =  (int)Math.ceil(highCount * 100 / sum);
+        same =  (int)Math.ceil(sameCount * 100 / sum);
+        low = (int)Math.ceil(lowCount * 100 / sum);
+
+        System.out.println(high);
+        System.out.println(same);
+        System.out.println(low);
+
+        StringBuffer sb = new StringBuffer("");
+        System.out.println(sb.length());
+
+
+    }
+
 }
